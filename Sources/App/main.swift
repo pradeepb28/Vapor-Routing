@@ -3,12 +3,16 @@ import Vapor
 let drop = Droplet()
 
 //get
-drop.get("hello") { _ in
+drop.get("/") { _ in
+  return "Welcome!"
+}
+
+drop.get("helloworld") { _ in
     return "Hello World!"
 }
 
 //nesting
-drop.get("welcome", "hello") { request in
+drop.get("welcome", "helloworld") { request in
    return "Welcome, Hello World!"
 }
 
@@ -20,9 +24,9 @@ drop.get("name",":name") { request in
   return "Unable to retrieve the key:name from JSON.\n \(request)"
 }
 
-drop.get("/profession/:profession") { request in
-  if let profession = request.parameters["profession"]?.string {
-    return "\(profession)"
+drop.get("/userId/:userId") { request in
+  if let userId = request.parameters["userId"]?.string {
+    return "\(userId)"
   }
   return ""
 }
@@ -33,9 +37,9 @@ drop.get("age", Int.self) { request, age in
 }
 
 //multiple-parametes
-drop.get("/name/:name/age/:age") { request in
-  if let name =  request.parameters["name"]?.string, let age = request.parameters["age"]?.string {
-    return "\(name), \(age)"
+drop.get("userId/:userId/name/:name/age/:age") { request in
+  if let userId = request.parameters["userId"]?.string, let name =  request.parameters["name"]?.string, let age = request.parameters["age"]?.string {
+    return "\(userId), \(name), \(age)"
   }
   return ""
 }
